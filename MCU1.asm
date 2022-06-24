@@ -15,7 +15,7 @@
 			Delay_reg 
 			STATUSTEMP
 			SEC_CALC			; used in calculating the elapse of one second
-			START_STOP			; user defined flag which if filled with 1’s the stop watch 
+			START_STOP			; user defined flag which if filled with 1â€™s the stop watch 
 			ITERATIONS			; counts, else halts
 	ENDC
 ;*********************************************************************************
@@ -240,7 +240,7 @@ INITIAL
 	CLRF	PORTD
 	CLRF	PORTE 
 	
-	BANKSEL	TMR0				; TMR0 to update 256 – 6 = 250
+	BANKSEL	TMR0				; TMR0 to update 256 â€“ 6 = 250
 	MOVLW	0X06
 	MOVWF	TMR0
 	CLRF	SEC_CALC			; 0 ms has passed
@@ -262,5 +262,5 @@ LO1	DECFSZ   TEMP,1
   	GOTO     LO1
   	RETURN
 ;*********************************************************************************
-; Code ends here
+; Code ends here 
 	END

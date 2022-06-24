@@ -1,7 +1,3 @@
-
-;***********ALL COMMENTED INSTRUCTIONS IS FOR FLASHING***********
-
-
 	INCLUDE "P16F877A.INC"
 	__CONFIG(0x3FF9)
 ;*********************************************************************************
@@ -52,14 +48,7 @@ MAIN
 	CALL 	INITIAL
 LOOP  
 	
-;F0
-;	BANKSEL	FLOOR0
-;	MOVLW	.15
-;	SUBWF	FLOOR0,W
-;	BTFSS	STATUS,Z
-;	GOTO	D0
-;	BTFSS	FLASHING,0
-;	GOTO	T0
+
 D0
 	BANKSEL	FLOOR0
 	MOVF	FLOOR0,W            
@@ -73,14 +62,7 @@ D0
 	CALL    DISPLAY0        ; call display subroutine
 	CALL   	DELAY 
      
-;F1
-;	BANKSEL	FLOOR1
-;	MOVLW	.15
-;	SUBWF	FLOOR1,W
-;	BTFSS	STATUS,Z
-;	GOTO	D1
-;	BTFSS	FLASHING,0
-;	GOTO	T1
+
 D1
 	BANKSEL	FLOOR1
 	MOVF	FLOOR1,W            
@@ -93,38 +75,9 @@ D1
 	CALL    DELAY 
 	CALL    DISPLAY1        ; call display subroutine
 	CALL   	DELAY 
-;	CALL	TEST
+
 	GOTO 	LOOP
 
-;T0
-;	BTFSC	TIMER_ON,0
-;	GOTO	F1
-;	CALL 	T0_START
-;	GOTO	F1
-
-;T1
-;	BTFSC	TIMER_ON,0
-;	GOTO	F0
-;	CALL 	T0_START
-;	GOTO	F0
-
-;TEST
-;	BANKSEL	FLOOR0
-;	MOVLW	.15
-;	SUBWF	FLOOR0,W
-;	BTFSC	STATUS,Z
-;	RETURN
-;	BANKSEL	FLOOR1
-;	MOVLW	.15
-;	SUBWF	FLOOR1,W
-;	BTFSC	STATUS,Z
-;	RETURN
-;	BANKSEL	INTCON		
-;	BCF		INTCON, TMR0IE
-;	BCF		INTCON, TMR0IF
-;	CLRF	SEC_CALC
-;	CLRF	TIMER_ON
-;	RETURN
 ;*********************************************************************************
 ; Interrupt Service Routine
 ISR
@@ -132,8 +85,7 @@ ISR
 	BTFSC	PIR1, RCIF		; Check for RX interrupt
 	CALL	RX_Receive
 	pop
-;	BTFSC	INTCON, TMR0IF
-;	CALL	TMR0_CODE	
+	
 	RETFIE
 
 RX_Receive
@@ -175,34 +127,6 @@ gen_ones
   	MOVF    TEMP,W
   	MOVWF   units           ; the value of Entries bit
  	RETURN
-;*********************************************************************************
-; Timer0 code 
-;T0_START
-;	BANKSEL	TMR0
-;	MOVLW	0x06
-;	MOVWF	TMR0
-;	BANKSEL	INTCON		
-;	BSF		INTCON, TMR0IE
-;	BCF		INTCON, TMR0IF
-;	CLRF	SEC_CALC
-;	BSF		TIMER_ON,0
-;	COMF	FLASHING,F
-;	RETURN
-
-;TMR0_CODE
-;	BANKSEL INTCON
-;	BCF		INTCON, TMR0IF	; Clear TMR0 Flag
-;	BANKSEL	TMR0
-;	MOVLW	0X06			; Reinitialize TMR0
-;	MOVWF	TMR0
-;	INCF	SEC_CALC, F
-;	MOVLW	.125			; Assuming a clock of 4MHz, we need 
-;	SUBWF	SEC_CALC, W		; 250 * 16 * 125 = 0.5x106 µs = 0.5 Sec
-;	BTFSS	STATUS, Z
-;	GOTO	ENDTMR0			; Not 0.5 Sec yet
-;	COMF	FLASHING,F
-;ENDTMR0
-;	RETURN
 
 ;*********************************************************************************
 ; Display subroutine for floor 0
@@ -252,16 +176,16 @@ DISPLAY1
 ; Look-up table for 7-segment
 DISPLAY_TABLE
 	ADDWF 	PCL , 1
-	RETLW 	B'11000000' 	;’0’
-	RETLW 	B'11111001' 	;’1’
-	RETLW 	B'10100100' 	;’2’
-	RETLW 	B'10110000' 	;’3’
-	RETLW 	B'10011001' 	;’4’
-	RETLW 	B'10010010' 	;’5’
-	RETLW 	B'10000010' 	;’6’
-	RETLW 	B'11111000' 	;’7’
-	RETLW 	B'10000000' 	;’8’
-	RETLW 	B'10010000' 	;’9’
+	RETLW 	B'11000000' 	;â€™0â€™
+	RETLW 	B'11111001' 	;â€™1â€™
+	RETLW 	B'10100100' 	;â€™2â€™
+	RETLW 	B'10110000' 	;â€™3â€™
+	RETLW 	B'10011001' 	;â€™4â€™
+	RETLW 	B'10010010' 	;â€™5â€™
+	RETLW 	B'10000010' 	;â€™6â€™
+	RETLW 	B'11111000' 	;â€™7â€™
+	RETLW 	B'10000000' 	;â€™8â€™
+	RETLW 	B'10010000' 	;â€™9â€™
 ;*********************************************************************************
 ; DELAY to display numbers
 DELAY
@@ -298,9 +222,6 @@ INITIAL
 	CLRF 	TRISB			; PORTB is used to choose the digit to display			
 	BSF		TRISC, 7		; Configuring RC7 pin as i/p for serial communication
 	
-;	BANKSEL	OPTION_REG
-;	MOVLW	0XD3			; PSA assigned to TMR0, Prescalar = 16, TMR0 clock source is the internal
-;	MOVWF	OPTION_REG		; instruction cycle clock, External interrupt is on the rising edge
 	
 	BANKSEL	PORTD
 	CLRF	PORTD			; clear PORTD and PORTB
@@ -309,8 +230,7 @@ INITIAL
 	BANKSEL FLOOR0
 	CLRF 	FLOOR0			; Initializing FLOOR0 and FLOOR1 with 0 value
 	CLRF	FLOOR1
-;	CLRF	FLASHING
-;	CLRF	TIMER_ON
+
 	RETURN
 ;*********************************************************************************
 ; Code ends here

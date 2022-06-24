@@ -1,5 +1,4 @@
 # Smart-Parking-pic16f877a-ASSEMBLY-code
-2 floors parking working using 2mc pic16f877a
 In this project I made an two floor parking each floor has two IR sensors one for entrance and other for exit this floor, 
 the maximum capacity of cars is ( 15 ), 
 the ground floor's lights it's work for 1s when a whenever a car enter, the basement floor's light it depend on it's day or night outside using LDR sensor, 

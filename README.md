@@ -8,4 +8,6 @@ after that transmitting the number of cars using USART and another receive from 
 | Language       |        Assembly     |
 |---------------:|---------------------|
 | microcontroller| microchip pic16f877a|
+| program & compiler | MPLAB IDE v8.56 |
+
 
